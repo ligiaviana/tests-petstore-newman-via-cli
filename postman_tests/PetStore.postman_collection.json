@@ -1,0 +1,678 @@
+{
+	"info": {
+		"_postman_id": "22a61a2d-f2c4-4d2c-b97d-baa2514609e2",
+		"name": "PetStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23896683",
+		"_collection_link": "https://blue-rocket-488622.postman.co/workspace/PetStore~9253ec19-e000-478c-a20f-9dc20b001c8f/collection/23896683-22a61a2d-f2c4-4d2c-b97d-baa2514609e2?action=share&source=collection_link&creator=23896683"
+	},
+	"item": [
+		{
+			"name": "AddNewPet | expected: 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// REQUEST BODY:",
+							"pm.test('Check if request body is an object', function () {",
+							"    var requestBody = pm.request.body.toJSON(); ",
+							"    pm.expect(requestBody).to.be.an('object');",
+							"});",
+							"",
+							"pm.test('Check if id is undefined', function () {",
+							"    var requestBody = pm.request.body.toJSON(); ",
+							"    var id = requestBody.id; ",
+							"",
+							"    pm.expect(id).to.be.a('undefined'); ",
+							"});",
+							"",
+							"// RESPONSE BODY:",
+							"pm.test('Check if has valid status code 400', function () {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"var responseBody = pm.response.json();",
+							"",
+							"pm.test('Check if response body is an object', function () {",
+							"    pm.expect(responseBody).to.be.an('object');",
+							"    pm.expect(responseBody.message).to.eql('bad input');",
+							"})",
+							"",
+							"pm.test('Check if \\'code\\' is present and equals 400 and is a number', function () {",
+							"    pm.expect(responseBody).to.have.property('code');",
+							"    pm.expect(responseBody.code).to.be.a('number');",
+							"    pm.expect(responseBody.code).to.equal(400);",
+							"})",
+							"",
+							"pm.test('Check if \\'type\\' is present and is a string and is equal to \\'unknown\\'', function () {",
+							"    pm.expect(responseBody).to.have.property('type');",
+							"    pm.expect(responseBody.type).to.be.a('string');",
+							"    pm.expect(responseBody.type).to.equal('unknown');",
+							"})",
+							"",
+							"pm.test('Check if \\'message\\' is present and is a string and is equal to \\'bad input\\'', function () {",
+							"    pm.expect(responseBody).to.have.property('message');",
+							"    pm.expect(responseBody.message).to.be.a('string');",
+							"    pm.expect(responseBody.message).to.equal('bad input');",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": a,\r\n  \"category\": {\r\n    \"id\": 1,\r\n    \"name\": \"Porte Pequeno\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"https://httpstatusdogs.com/200-ok\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"calm\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewPet | expected: 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// REQUEST BODY:\r",
+							"pm.test('Check if request body is an object', function () {\r",
+							"    var requestBody = pm.request.body.toJSON(); \r",
+							"    pm.expect(requestBody).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if id is a number', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    var id = requestBody.id; \r",
+							"\r",
+							"    pm.expect(id).to.be.a('number'); \r",
+							"});\r",
+							"\r",
+							"pm.test('Check if category is present and is an object', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('category').that.is.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if name is present and is a string', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('name').that.is.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if tags is present and is an array', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('tags').that.is.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if status is present and is a string', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('status').that.is.a('string');\r",
+							"});\r",
+							"\r",
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var petId = jsonData.id; \r",
+							"pm.environment.set(\"PetId\", petId); \r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Check if response body is an object', function () {\r",
+							"    pm.expect(responseBody).to.be.an('object');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'id\\' is present and equals and is a number', function () {\r",
+							"    pm.expect(responseBody).to.have.property('id');\r",
+							"    pm.expect(responseBody.id).to.be.a('number');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'category\\' is present and is an object', function () {\r",
+							"    pm.expect(responseBody).to.have.property('category').that.is.an('object');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'name\\' is present and is a string', function () {\r",
+							"    pm.expect(responseBody).to.have.property('name').that.is.a('string');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if tags is present and is an array', function () {\r",
+							"    pm.expect(responseBody).to.have.property('tags').that.is.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if status is present and is a string', function () {\r",
+							"    pm.expect(responseBody).to.have.property('status').that.is.a('string');\r",
+							"    pm.expect(responseBody.status).to.equal('available');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 369,\r\n  \"category\": {\r\n    \"id\": 1,\r\n    \"name\": \"Porte Pequeno\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"https://httpstatusdogs.com/200-ok\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"calm\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindById | expected: 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 404', function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Check if response body is an object', function () {\r",
+							"    pm.expect(responseBody).to.be.an('object');\r",
+							"    pm.expect(responseBody.message).to.eql('java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'code\\' is present and equals 404 and is a number', function () {\r",
+							"    pm.expect(responseBody).to.have.property('code');\r",
+							"    pm.expect(responseBody.code).to.be.a('number');\r",
+							"    pm.expect(responseBody.code).to.equal(404);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'type\\' is present and is a string and is equal to \\'unknown\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('type');\r",
+							"    pm.expect(responseBody.type).to.be.a('string');\r",
+							"    pm.expect(responseBody.type).to.equal('unknown');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'message\\' is present and is a string and is equal to \\'java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('message');\r",
+							"    pm.expect(responseBody.message).to.be.a('string');\r",
+							"    pm.expect(responseBody.message).to.equal('java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/pet/{{WrongPetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet",
+						"{{WrongPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindByStatus | expected: 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Body is an array\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each object has expected fields\", function () {\r",
+							"    pm.response.json().forEach(function (pet) {\r",
+							"        pm.expect(pet).to.have.property('id');\r",
+							"        pm.expect(pet).to.have.property('photoUrls');\r",
+							"        pm.expect(pet).to.have.property('tags');\r",
+							"        pm.expect(pet).to.have.property('status');\r",
+							"        if (pet.name) {\r",
+							"            pm.expect(pet).to.have.property('name');\r",
+							"        }\r",
+							"        if (pet.category) {\r",
+							"            pm.expect(pet).to.have.property('category');\r",
+							"        }\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Each pet has status 'available'\", function () {\r",
+							"    pm.response.json().forEach(function (pet) {\r",
+							"        pm.expect(pet.status).to.equal('available');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each pet has a valid id\", function () {\r",
+							"    pm.response.json().forEach(function (pet) {\r",
+							"        pm.expect(pet.id).to.be.a('number');\r",
+							"        pm.expect(pet.id).to.be.above(0);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Each pet has at least one photo URL\", function () {\r",
+							"    pm.response.json().forEach(function (pet) {\r",
+							"        console.log(\"Photo URLs:\", pet.photoUrls);\r",
+							"        if (pet.photoUrls && pet.photoUrls.length > 0) {\r",
+							"            pm.expect(pet.photoUrls.length).to.be.above(0);\r",
+							"        } else {\r",
+							"            pm.expect(pet.photoUrls).to.exist;\r",
+							"        }\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/pet/findByStatus?status=available",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindById | expected: 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response body has expected fields\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.all.keys('id', 'category', 'name', 'photoUrls', 'tags', 'status');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Value of PetId field is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(Number(pm.environment.get(\"PetId\"))); \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/pet/{{PetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet",
+						"{{PetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateExistingPet | expected: 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// REQUEST BODY:\r",
+							"pm.test('Check if request body is an object', function () {\r",
+							"    var requestBody = pm.request.body.toJSON(); \r",
+							"    pm.expect(requestBody).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if id is undefined', function () {\r",
+							"    var requestBody = pm.request.body.toJSON(); \r",
+							"    var id = requestBody.id; \r",
+							"\r",
+							"    pm.expect(id).to.be.a('undefined'); \r",
+							"});\r",
+							"\r",
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 400', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"})\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Check if response body is an object', function () {\r",
+							"    pm.expect(responseBody).to.be.an('object');\r",
+							"    pm.expect(responseBody.message).to.eql('bad input');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'code\\' is present and equals 400 and is a number', function () {\r",
+							"    pm.expect(responseBody).to.have.property('code');\r",
+							"    pm.expect(responseBody.code).to.be.a('number');\r",
+							"    pm.expect(responseBody.code).to.equal(400);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'type\\' is present and is a string and is equal to \\'unknown\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('type');\r",
+							"    pm.expect(responseBody.type).to.be.a('string');\r",
+							"    pm.expect(responseBody.type).to.equal('unknown');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'message\\' is present and is a string and is equal to \\'bad input\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('message');\r",
+							"    pm.expect(responseBody.message).to.be.a('string');\r",
+							"    pm.expect(responseBody.message).to.equal('bad input');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": a,\r\n    \"category\": {\r\n        \"id\": 1,\r\n        \"name\": \"Porte Pequeno\"\r\n    },\r\n    \"name\": \"doggie\",\r\n    \"photoUrls\": [\r\n        \"https://httpstatusdogs.com/404-not-found\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"angry\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateExistingPet | expected: 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// REQUEST BODY:\r",
+							"pm.test('Check if request body is an object', function () {\r",
+							"    var requestBody = pm.request.body.toJSON(); \r",
+							"    pm.expect(requestBody).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if id is a number', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    var id = requestBody.id; \r",
+							"\r",
+							"    pm.expect(id).to.be.a('number'); \r",
+							"});\r",
+							"\r",
+							"pm.test('Check if category is present and is an object', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('category').that.is.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if name is present and is a string', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('name').that.is.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if tags is present and is an array', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('tags').that.is.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if status is present and is a string', function () {\r",
+							"    var requestBody = JSON.parse(pm.request.body.raw); \r",
+							"    pm.expect(requestBody).to.have.property('status').that.is.a('string');\r",
+							"});\r",
+							"\r",
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Check if response body is an object', function () {\r",
+							"    pm.expect(responseBody).to.be.an('object');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'id\\' is present and equals and is a number', function () {\r",
+							"    pm.expect(responseBody).to.have.property('id');\r",
+							"    pm.expect(responseBody.id).to.be.a('number');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'category\\' is present and is an object', function () {\r",
+							"    pm.expect(responseBody).to.have.property('category').that.is.an('object');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'name\\' is present and is a string', function () {\r",
+							"    pm.expect(responseBody).to.have.property('name').that.is.a('string');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if tags is present and is an array', function () {\r",
+							"    pm.expect(responseBody).to.have.property('tags').that.is.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if status is present and is a string', function () {\r",
+							"    pm.expect(responseBody).to.have.property('status').that.is.a('string');\r",
+							"    pm.expect(responseBody.status).to.equal('available');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{PetId}},\r\n    \"category\": {\r\n        \"id\": 1,\r\n        \"name\": \"Porte Pequeno\"\r\n    },\r\n    \"name\": \"doggie\",\r\n    \"photoUrls\": [\r\n        \"https://httpstatusdogs.com/404-not-found\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"angry\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pet",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePetById | expected: 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 404', function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Check if response body is an object', function () {\r",
+							"    pm.expect(responseBody).to.be.an('object');\r",
+							"    pm.expect(responseBody.message).to.eql('java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'code\\' is present and equals 404 and is a number', function () {\r",
+							"    pm.expect(responseBody).to.have.property('code');\r",
+							"    pm.expect(responseBody.code).to.be.a('number');\r",
+							"    pm.expect(responseBody.code).to.equal(404);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'type\\' is present and is a string and is equal to \\'unknown\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('type');\r",
+							"    pm.expect(responseBody.type).to.be.a('string');\r",
+							"    pm.expect(responseBody.type).to.equal('unknown');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if \\'message\\' is present and is a string and is equal to \\'java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"\\'', function () {\r",
+							"    pm.expect(responseBody).to.have.property('message');\r",
+							"    pm.expect(responseBody.message).to.be.a('string');\r",
+							"    pm.expect(responseBody.message).to.equal('java.lang.NumberFormatException: For input string: \\\"xxxyyy\\\"');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/pet/{{WrongPetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet",
+						"{{WrongPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePetById | expected: 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// RESPONSE BODY:\r",
+							"pm.test('Check if has valid status code 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response body has expected fields\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.all.keys('code', 'type', 'message');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/pet/{{PetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pet",
+						"{{PetId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
